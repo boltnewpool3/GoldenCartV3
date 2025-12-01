@@ -5,7 +5,6 @@ import { WinnersDashboard } from './components/WinnersDashboard';
 import { RaffleCard } from './components/RaffleCard';
 import { RaffleDraw } from './components/RaffleDraw';
 import { FAQModal } from './components/FAQModal';
-import { AnimatedBackground } from './components/AnimatedBackground';
 import { RaffleWeek, Winner, Contestant } from './types/raffle';
 import week1Data from './data/week1.json';
 import week2Data from './data/week2.json';
@@ -105,23 +104,21 @@ function App() {
   const currentDraw = raffles.find(r => r.week === activeDrawWeek);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-cyan-900 to-teal-900 overflow-hidden">
-      <AnimatedBackground />
-
-      <div className="container mx-auto px-4 py-8 relative z-10">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
+      <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-12">
           <div className="flex justify-center mb-6">
             <GoDaddyLogo className="w-48 h-auto" />
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-200 via-blue-200 to-teal-200 bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">
             Golden Cart Raffle
           </h1>
-          <p className="text-xl text-white text-opacity-80 max-w-2xl mx-auto mb-6">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
             Join our exciting weekly raffle for a chance to win $300! New winners announced every week.
           </p>
           <button
             onClick={() => setShowFAQ(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl backdrop-blur-lg border border-white border-opacity-20"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-xl transition-colors shadow-lg hover:shadow-xl"
           >
             <HelpCircle className="w-5 h-5" />
             How Does the Draw Work?
@@ -133,7 +130,7 @@ function App() {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-200 via-blue-200 to-teal-200 bg-clip-text text-transparent text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
             Weekly Raffles
           </h2>
         </div>
@@ -158,11 +155,11 @@ function App() {
           />
         )}
 
-        <footer className="mt-16 text-center text-white text-opacity-70">
+        <footer className="mt-16 text-center text-gray-600">
           <p className="text-sm mb-2">
             Golden Cart Raffle • GoDaddy • Each winner receives $300
           </p>
-          <p className="text-xs text-white text-opacity-50">
+          <p className="text-xs text-gray-500">
             Designed and developed by Abhishekh Dey ❤️
           </p>
         </footer>
