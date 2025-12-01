@@ -15,6 +15,8 @@ export function RaffleDraw({ contestants, week, onComplete, onClose }: RaffleDra
   const [isDrawing, setIsDrawing] = useState(true);
   const [winner, setWinner] = useState<Contestant | null>(null);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -91,8 +93,16 @@ export function RaffleDraw({ contestants, week, onComplete, onClose }: RaffleDra
   }, [contestants]);
 
   const handleComplete = () => {
-    if (winner) {
+    if (!winner) return;
+
+    const storedPassword = localStorage.getItem('raffle_admin_password') || 'InternationalMessaging@20';
+
+    if (password === storedPassword) {
       onComplete(winner);
+      onClose();
+    } else {
+      setError('Incorrect password. Please try again.');
+      setPassword('');
     }
   };
 
@@ -155,12 +165,41 @@ export function RaffleDraw({ contestants, week, onComplete, onClose }: RaffleDra
                   Prize: $300
                 </div>
               </div>
-              <button
-                onClick={handleComplete}
-                className="mt-6 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-xl transition-colors"
-              >
-                Confirm Winner
-              </button>
+
+              <div className="mt-6 space-y-4">
+                <div>
+                  <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-2">
+                    Enter Admin Password to Confirm Winner
+                  </label>
+                  <input
+                    type="password"
+                    id="confirm-password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError('');
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleComplete();
+                      }
+                    }}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    placeholder="Enter password"
+                    autoFocus
+                  />
+                  {error && (
+                    <p className="mt-2 text-sm text-red-600">{error}</p>
+                  )}
+                </div>
+
+                <button
+                  onClick={handleComplete}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-xl transition-colors"
+                >
+                  Confirm Winner
+                </button>
+              </div>
             </div>
           )}
         </div>

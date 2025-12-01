@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { HelpCircle } from 'lucide-react';
 import { GoDaddyLogo } from './components/GoDaddyLogo';
 import { WinnersDashboard } from './components/WinnersDashboard';
 import { RaffleCard } from './components/RaffleCard';
 import { RaffleDraw } from './components/RaffleDraw';
+import { FAQModal } from './components/FAQModal';
 import { RaffleWeek, Winner, Contestant } from './types/raffle';
 import week1Data from './data/week1.json';
 import week2Data from './data/week2.json';
@@ -34,6 +36,7 @@ function App() {
 
   const [activeDrawWeek, setActiveDrawWeek] = useState<number | null>(null);
   const [raffles, setRaffles] = useState<RaffleWeek[]>([]);
+  const [showFAQ, setShowFAQ] = useState(false);
 
   useEffect(() => {
     const raffleData: RaffleWeek[] = [
@@ -92,7 +95,6 @@ function App() {
       prizeAmount: 300,
     };
     setWinners(prev => [...prev, newWinner]);
-    setActiveDrawWeek(null);
   };
 
   const handleDeleteWinner = (week: number) => {
@@ -111,9 +113,16 @@ function App() {
           <h1 className="text-5xl font-bold text-gray-800 mb-4">
             Golden Cart Raffle
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
             Join our exciting weekly raffle for a chance to win $300! New winners announced every week.
           </p>
+          <button
+            onClick={() => setShowFAQ(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-xl transition-colors shadow-lg hover:shadow-xl"
+          >
+            <HelpCircle className="w-5 h-5" />
+            How Does the Draw Work?
+          </button>
         </header>
 
         <div className="mb-12">
@@ -147,10 +156,15 @@ function App() {
         )}
 
         <footer className="mt-16 text-center text-gray-600">
-          <p className="text-sm">
+          <p className="text-sm mb-2">
             Golden Cart Raffle • GoDaddy • Each winner receives $300
           </p>
+          <p className="text-xs text-gray-500">
+            Designed and developed by Abhishekh Dey ❤️
+          </p>
         </footer>
+
+        {showFAQ && <FAQModal onClose={() => setShowFAQ(false)} />}
       </div>
     </div>
   );
