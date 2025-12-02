@@ -33,24 +33,25 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   }, [targetDate]);
 
   return (
-    <div className="flex gap-4 justify-center">
-      <TimeUnit value={timeLeft.days} label="Days" />
-      <TimeUnit value={timeLeft.hours} label="Hours" />
-      <TimeUnit value={timeLeft.minutes} label="Minutes" />
-      <TimeUnit value={timeLeft.seconds} label="Seconds" />
+    <div className="flex gap-4 justify-center animate-bounce-in">
+      <TimeUnit value={timeLeft.days} label="Days" color="from-pink-400 to-rose-500" />
+      <TimeUnit value={timeLeft.hours} label="Hours" color="from-purple-400 to-indigo-500" />
+      <TimeUnit value={timeLeft.minutes} label="Minutes" color="from-blue-400 to-cyan-500" />
+      <TimeUnit value={timeLeft.seconds} label="Seconds" color="from-green-400 to-emerald-500" />
     </div>
   );
 }
 
-function TimeUnit({ value, label }: { value: number; label: string }) {
+function TimeUnit({ value, label, color }: { value: number; label: string; color: string }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="bg-white rounded-lg px-4 py-2 shadow-md min-w-[60px]">
-        <span className="text-2xl font-bold text-gray-800">
+    <div className="flex flex-col items-center transform hover:scale-110 transition-transform duration-300">
+      <div className={`bg-gradient-to-br ${color} rounded-xl px-4 py-3 shadow-lg hover:shadow-2xl transition-shadow min-w-[70px] relative overflow-hidden group`}>
+        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+        <span className="text-3xl font-bold text-white relative z-10 animate-pulse">
           {value.toString().padStart(2, '0')}
         </span>
       </div>
-      <span className="text-xs text-gray-600 mt-1">{label}</span>
+      <span className="text-sm font-semibold text-gray-700 mt-2">{label}</span>
     </div>
   );
 }

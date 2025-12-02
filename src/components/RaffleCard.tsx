@@ -20,9 +20,12 @@ export function RaffleCard({ raffle, onStartDraw, canDraw = false }: RaffleCardP
           ? 'bg-gray-100 opacity-75'
           : isActive
           ? 'bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-400'
-          : 'bg-gradient-to-br from-slate-50 to-gray-50'
+          : 'bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border-4 border-amber-300 shadow-2xl relative'
       }`}
     >
+      {isComingSoon && (
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 via-blue-500 via-green-500 to-yellow-500 animate-pulse"></div>
+      )}
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-2xl font-bold text-gray-800">
@@ -40,7 +43,7 @@ export function RaffleCard({ raffle, onStartDraw, canDraw = false }: RaffleCardP
             </div>
           )}
           {isComingSoon && (
-            <div className="bg-gray-400 text-white px-4 py-1 rounded-full">
+            <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 text-white px-4 py-1 rounded-full shadow-lg animate-pulse">
               <span className="text-sm font-semibold">Coming Soon</span>
             </div>
           )}
@@ -106,8 +109,8 @@ export function RaffleCard({ raffle, onStartDraw, canDraw = false }: RaffleCardP
                 Draw Date: {raffle.drawDate.toLocaleDateString()}
               </span>
             </div>
-            <div className="bg-white rounded-lg p-4 mb-4">
-              <p className="text-center text-sm text-gray-600 mb-3 font-medium">
+            <div className="bg-gradient-to-br from-white via-amber-50 to-yellow-50 rounded-xl p-6 mb-4 border-2 border-amber-200 shadow-inner">
+              <p className="text-center text-lg text-amber-800 mb-4 font-bold animate-pulse">
                 Time Until Draw
               </p>
               <CountdownTimer targetDate={raffle.drawDate} />

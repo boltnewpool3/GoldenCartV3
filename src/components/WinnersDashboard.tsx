@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Trophy, Trash2 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { Winner } from '../types/raffle';
 import { DeleteWinnerModal } from './DeleteWinnerModal';
 
@@ -10,8 +11,45 @@ interface WinnersDashboardProps {
 
 export function WinnersDashboard({ winners, onDeleteWinner }: WinnersDashboardProps) {
   const [deleteModal, setDeleteModal] = useState<{ week: number; name: string } | null>(null);
+
+  useEffect(() => {
+    if (winners.length > 0) {
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 0 };
+
+      function randomInRange(min: number, max: number) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          return;
+        }
+
+        const particleCount = 30 * (timeLeft / duration);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        });
+      }, 250);
+
+      return () => clearInterval(interval);
+    }
+  }, []);
+
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl shadow-xl p-8 border-2 border-amber-200">
+    <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl shadow-xl p-8 border-2 border-amber-200 relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 animate-pulse"></div>
       <div className="flex items-center gap-3 mb-6">
         <Trophy className="w-8 h-8 text-amber-600" />
         <h2 className="text-3xl font-bold text-gray-800">Winners Dashboard</h2>
